@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vendor-risk-scorecard/schemas/vendor.json",
+  "title": "Vendor",
+  "description": "Vendor entity for the risk scorecard",
+  "type": "object",
+  "required": [
+    "id",
+    "vendorName",
+    "category",
+    "subCategory",
+    "riskScore",
+    "riskDetails",
+    "severity",
+    "lastReviewDate",
+    "sla",
+    "status"
+  ],
+  "properties": {
+    "id": { "type": "string", "description": "Unique vendor identifier" },
+    "vendorName": { "type": "string", "description": "Display name of the vendor" },
+    "category": { "type": "string", "description": "e.g. Technology, Professional Services" },
+    "subCategory": { "type": "string", "description": "e.g. Cloud Hosting, Legal" },
+    "riskScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Risk score 0-100; higher is higher risk"
+    },
+    "riskDetails": { "type": "string", "description": "Summary of risk factors" },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Derived from riskScore: low < 40, medium 40-70, high > 70"
+    },
+    "lastReviewDate": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO date (YYYY-MM-DD) of last compliance review"
+    },
+    "sla": {
+      "type": "string",
+      "description": "Review cadence e.g. 30 days, 90 days, Annual"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending_review", "approved", "escalated", "in_review"],
+      "description": "Current review workflow status"
+    },
+    "reviewedBy": { "type": "string", "description": "Actor who approved (optional)" },
+    "escalationReason": { "type": "string", "description": "Reason for escalation (optional)" },
+    "escalatedAt": { "type": "string", "format": "date-time", "description": "When escalated (optional)" },
+    "escalatedBy": { "type": "string", "description": "Actor who escalated (optional)" }
+  },
+  "additionalProperties": false
+}

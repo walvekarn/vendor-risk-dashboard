@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vendor-risk-scorecard/schemas/audit-log-entry.json",
+  "title": "AuditLogEntry",
+  "description": "Immutable audit log record for compliance actions",
+  "type": "object",
+  "required": [
+    "id",
+    "timestamp",
+    "actor",
+    "action",
+    "vendorId",
+    "vendorName",
+    "previousStatus",
+    "newStatus"
+  ],
+  "properties": {
+    "id": { "type": "string", "description": "Unique log entry identifier" },
+    "timestamp": { "type": "string", "format": "date-time", "description": "When the action occurred (ISO 8601)" },
+    "actor": { "type": "string", "description": "User or system that performed the action" },
+    "action": {
+      "type": "string",
+      "enum": ["approve", "review_now", "escalate"],
+      "description": "Action type"
+    },
+    "vendorId": { "type": "string", "description": "ID of the vendor affected" },
+    "vendorName": { "type": "string", "description": "Vendor name at time of action" },
+    "previousStatus": { "type": "string", "description": "Status before the action" },
+    "newStatus": { "type": "string", "description": "Status after the action" },
+    "details": { "type": "string", "description": "Optional e.g. escalation reason" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional extra context"
+    }
+  },
+  "additionalProperties": false
+}

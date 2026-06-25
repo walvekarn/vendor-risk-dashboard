@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vendor-risk-scorecard/schemas/api.json",
+  "title": "API Request/Response Schemas",
+  "description": "Request and response shapes for Vendor Risk Scorecard API",
+
+  "definitions": {
+    "Vendor": { "$ref": "./vendor.json" },
+    "AuditLogEntry": { "$ref": "./audit-log-entry.json" },
+
+    "GET /api/vendors - Query": {
+      "type": "object",
+      "properties": {
+        "severity": { "type": "string", "enum": ["low", "medium", "high"] },
+        "criticalOnly": { "type": "string", "enum": ["true", "false"] }
+      }
+    },
+    "GET /api/vendors - Response": {
+      "type": "array",
+      "items": { "$ref": "vendor.json" }
+    },
+
+    "GET /api/audit-log - Query": {
+      "type": "object",
+      "properties": {
+        "vendorId": { "type": "string" },
+        "limit": { "type": "string", "pattern": "^[0-9]+$" }
+      }
+    },
+    "GET /api/audit-log - Response": {
+      "type": "array",
+      "items": { "$ref": "audit-log-entry.json" }
+    },
+
+    "POST /api/vendors/[id]/approve - Response": { "$ref": "vendor.json" },
+    "POST /api/vendors/[id]/review - Response": { "$ref": "vendor.json" },
+
+    "POST /api/vendors/[id]/escalate - Request": {
+      "type": "object",
+      "required": ["escalationReason"],
+      "properties": {
+        "escalationReason": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500
+        }
+      },
+      "additionalProperties": false
+    },
+    "POST /api/vendors/[id]/escalate - Response": { "$ref": "vendor.json" },
+
+    "APIError": {
+      "type": "object",
+      "required": ["error"],
+      "properties": {
+        "error": { "type": "string", "description": "Human-readable error message" }
+      }
+    }
+  }
+}
